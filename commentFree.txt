@@ -1,1 +1,6 @@
-"don't comment this out \\"  
+prior text here  
+multiple line about to be removed  
+
+
+and now for strings " this is a 'string' /* comment */ " 
+We've got an error

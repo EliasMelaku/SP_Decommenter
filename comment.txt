@@ -1,1 +1,6 @@
-"don't comment this out \\" /*comment this out*/
+prior text here /* text to be removed */
+multiple line about to be removed /* lsd
+sdfa;slkdfj;ad  asdfasdf
+*/
+and now for strings " this is a 'string' /* comment */ " 
+/*

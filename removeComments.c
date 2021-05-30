@@ -153,7 +153,7 @@ enum State handleCHARACTERcases(int c){
 
 /*-------------------------------------------------------------*/
 /* handleBACKSLASHcases: Implement the BACKSLASH state of the DFA.  */
-/* handles states when BACKSLASH  appears                */
+/* handles states when BACKSLASH  appears in string or character literals */
 /* c is the current DFA character. Return the next state.   */
 /*---------------------------------------------------------*/
 enum State handleBACKSLASHcases(int c){
@@ -166,7 +166,34 @@ enum State handleBACKSLASHcases(int c){
 }
 
 
+/*-------------------------------------------------------------*/
+/* handleERRORSIFANY: Checks if there are any unclosed comments */
+/* state is the current DFA state, returns wheter there are errors or not 
+ error being an unclosed comment*/
+/*---------------------------------------------------------*/
+int handleERRORSIFANY(enum State state){
+    if (state == FIRSTAESTERIKS || state == SECONDAESTERKIS) {
+        fprintf(stderr, "-------------------------------------------\n");
+        fprintf(stderr, "There was an incomplete comment on Line: %d\n", commentLine);
+        fprintf(stderr, "-------------------------------------------\n");
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
 
+
+/*-------------------------------------------------------------*/
+/* increaseLineCounter: Keeps track of the current line       */
+/* Add one to Line Counter whenever there is a new line      */
+/* c is the current DFA chatacter, returns nothing          */
+/*---------------------------------------------------------*/
+void increaseLineCounter(int c){
+    if (c == '\n'){
+            currentLine += 1;
+        }
+}
 
 /* ------------------------------------------------- */
 /*                  Main function                    */
@@ -202,9 +229,11 @@ int main(void){
             }
             break;
         }
-        if (c == '\n'){
-            currentLine += 1;
-        }
+        
+
+        increaseLineCounter(c);
+
+        /*Handle each case here depending on state*/ 
         switch (state)
         {
         case NORMAL:
@@ -241,15 +270,8 @@ int main(void){
 
     }
 
-    /* Handle errors here */
-    if (state == FIRSTAESTERIKS || state == SECONDAESTERKIS) {
-        fprintf(stderr, "-------------------------------------------\n");
-        fprintf(stderr, "There was an incomplete comment on Line: %d\n", commentLine);
-        fprintf(stderr, "-------------------------------------------\n");
-        return 1;
-    }
-    else{
-        return 0;
-    }
+    /* Handle incomplete errors (if any) here */
+    
+    return handleERRORSIFANY(state);
     
 }

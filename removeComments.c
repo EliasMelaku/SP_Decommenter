@@ -14,8 +14,9 @@ enum State prevState = STRING;
 
 
 /* Declare variables to store where a certain comment started and 
- how many lines it spans it has*/
+ how many lines it spans */
 
+int currentLine = 1;
 int commentLine;
 int newLineInComment = 0;
 
@@ -50,6 +51,8 @@ enum State handleNORMALcases(int c){
 /*---------------------------------------------------------*/
 enum State handleFIRSTSLASHcases(int c){
     enum State state = FIRSTSLASH;
+
+    commentLine = currentLine;
 
     if (c == '*'){
         state = FIRSTAESTERIKS;
@@ -193,9 +196,15 @@ int main(void){
         c = getchar();
        
        /* check if file has ended*/
-        if (c == EOF)
+        if (c == EOF){
+            if (state == FIRSTSLASH){
+                putchar('/');
+            }
             break;
-
+        }
+        if (c == '\n'){
+            currentLine += 1;
+        }
         switch (state)
         {
         case NORMAL:
@@ -234,7 +243,9 @@ int main(void){
 
     /* Handle errors here */
     if (state == FIRSTAESTERIKS || state == SECONDAESTERKIS) {
-        printf("We've got an error");
+        fprintf(stderr, "-------------------------------------------\n");
+        fprintf(stderr, "There was an incomplete comment on Line: %d\n", commentLine);
+        fprintf(stderr, "-------------------------------------------\n");
         return 1;
     }
     else{

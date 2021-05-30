@@ -1,6 +1,5 @@
-prior text here  
-multiple line about to be removed  
+what will it do in this situation/    b/
+someCommentStarted here  
 
-
-and now for strings " this is a 'string' /* comment */ " 
-We've got an error
+ 
+ok what about now 

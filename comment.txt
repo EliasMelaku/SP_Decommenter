@@ -1,6 +1,5 @@
-prior text here /* text to be removed */
-multiple line about to be removed /* lsd
-sdfa;slkdfj;ad  asdfasdf
-*/
-and now for strings " this is a 'string' /* comment */ " 
-/*
+what will it do in this situation/    b/
+someCommentStarted here /* 
+some other comment /* bot
+but we got trouble */ 
+ok what about now /*

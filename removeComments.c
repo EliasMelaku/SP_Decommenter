@@ -4,7 +4,7 @@
 /* ------------------------------------------------- */
 /*  Declare States that the given input might be in  */
 /* ------------------------------------------------- */
-enum State {FIRSTSLASH, FIRSTAESTERIKS, SECONDAESTERKIS, 
+enum State {FIRSTSLASH, FIRSTASTERISK, SECONDASTERISK, 
             STRING, CHARACTER, NORMAL, BACKSLASH, ERROR};
 
 
@@ -44,7 +44,7 @@ enum State handleNORMALcases(int c){
 }
 
 
-/*------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 /* handleFIRSTSLASHcases: Implement the FIRSTSLASH state of the DFA. */
 /* State that could be start of the comment                  */
 /* c is the current DFA character. Return the next state.   */
@@ -55,7 +55,7 @@ enum State handleFIRSTSLASHcases(int c){
     commentLine = currentLine;
 
     if (c == '*'){
-        state = FIRSTAESTERIKS;
+        state = FIRSTASTERISK;
     }
     else if (c == '/'){
         putchar(c);
@@ -70,16 +70,16 @@ enum State handleFIRSTSLASHcases(int c){
 
 
 
-/*------------------------------------------------------------*/
-/* handleFIRSTAESTRIKScases: Implement the FIRSTAESTRIKS state of the DFA. */
-/* Checks if the comment really started or not               */
-/* c is the current DFA character. Return the next state.   */
-/*---------------------------------------------------------*/
-enum State handleFIRSTAESTERIKScases(int c){
-    enum State state = FIRSTAESTERIKS;
+/*--------------------------------------------------------------------------*/
+/* handleFIRSTASTERISKcases: Implement the FIRSTASTERISK state of the DFA. */
+/* Checks if the comment really started or not                            */
+/* c is the current DFA character. Return the next state.                */
+/*----------------------------------------------------------------------*/
+enum State handleFIRSTASTERISKcases(int c){
+    enum State state = FIRSTASTERISK;
 
     if (c == '*'){
-        state = SECONDAESTERKIS;
+        state = SECONDASTERISK;
     }
     else if (c == '\n'){
         newLineInComment += 1; 
@@ -89,12 +89,12 @@ enum State handleFIRSTAESTERIKScases(int c){
 
 
 /*------------------------------------------------------------*/
-/* handleSECONDAESTRIKScases: Implement the SECONDAESTRIKS state of the DFA. */
+/* handleSECONDASTERISKcases: Implement the SECONDASTERISK state of the DFA. */
 /* checks if the comment is closing or not                   */
 /* c is the current DFA character. Return the next state.   */
 /*---------------------------------------------------------*/
-enum State handleSECONDAESTERIKScases(int c){
-    enum State state = SECONDAESTERKIS;
+enum State handleSECONDASTERISKcases(int c){
+    enum State state = SECONDASTERISK;
 
     if (c == '/'){
         putchar(' ');
@@ -106,7 +106,7 @@ enum State handleSECONDAESTERIKScases(int c){
     
     else {
         
-        state = FIRSTAESTERIKS;
+        state = FIRSTASTERISK;
     }
     return state;
 }
@@ -172,7 +172,7 @@ enum State handleBACKSLASHcases(int c){
  error being an unclosed comment*/
 /*---------------------------------------------------------*/
 int handleERRORSIFANY(enum State state){
-    if (state == FIRSTAESTERIKS || state == SECONDAESTERKIS) {
+    if (state == FIRSTASTERISK || state == SECONDASTERISK) {
         fprintf(stderr, "-------------------------------------------\n");
         fprintf(stderr, "There was an incomplete comment on Line: %d\n", commentLine);
         fprintf(stderr, "-------------------------------------------\n");
@@ -244,12 +244,12 @@ int main(void){
             state = handleFIRSTSLASHcases(c);
             break;
         
-        case FIRSTAESTERIKS:
-            state = handleFIRSTAESTERIKScases(c);
+        case FIRSTASTERISK:
+            state = handleFIRSTASTERISKcases(c);
             break;
         
-        case SECONDAESTERKIS:
-            state = handleSECONDAESTERIKScases(c);
+        case SECONDASTERISK:
+            state = handleSECONDASTERISKcases(c);
             break;
 
         case STRING:
